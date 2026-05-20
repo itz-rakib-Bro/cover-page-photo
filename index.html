@@ -390,14 +390,31 @@ gtag('config', 'G-B1P9J4YPZ9')
 
         </a>
 
-    </div>
+           </div>
+
+      <div style="text-align: center;
+                margin: 15px 0 5px 0; 
+                font-family: sans-serif;">
+  <div style="display: inline-block; background: #eaf5ec;
+                border: 1px solid #238a44; 
+                padding: 8px 16px; 
+                border-radius: 20px; 
+                color: #238a44; 
+                font-weight: bold; 
+                font-size: 15px;
+                 box-shadow: 0 2px 8px rgba(35,138,68,0.1);">
+         
+         🚀 Total Cover Pages Generated: <span id="download-count">Loading...</span>
+    
+        </div>
+</div>
 
     <!-- COPYRIGHT -->
 
            <p style="margin: 8px 0; 
               display: inline-block;">
               
-              © 2026 IUBAT COVER PHOTO | All rights reserved
+              © 2026 IUBAT COVER PHOTO   |  All rights reserved
             
         </p>
 
@@ -455,7 +472,7 @@ gtag('config', 'G-B1P9J4YPZ9')
                         white-space: nowrap;
                     ">
 
-                    International University of Business <br> Agriculture and Technology
+                  IUBAT-International University of Business <br> Agriculture and Technology
 
                 </h2>
                 
@@ -811,8 +828,52 @@ function toggleFeedback() {
 }
 </script>
 
+       <script>
+               const dbUrl = "https://iubat-counter-c0310-default-rtdb.firebaseio.com/counter.json";
+               const countElement = document.getElementById("download-count");
 
+       function fetchCount() {
+            fetch(dbUrl)
+            .then(res => res.json())
+            .then(data => {
+                let currentCount = data ? data.total : 0;
+                if(currentCount === 0) { currentCount = 500; updateCountInDb(500); }
+                countElement.innerText = currentCount.toLocaleString();
+            })
+            .catch(err => { countElement.innerText = "500+"; });
+    }
 
+       function updateCountInDb(newCount) {
+           fetch(dbUrl, {
+            method: "PUT",
+            body: JSON.stringify({ total: newCount })
+        });
+    }
+
+        function incrementCounter() {
+            fetch(dbUrl)
+            .then(res => res.json())
+            .then(data => {
+                let currentCount = data ? data.total : 500;
+                let updatedCount = currentCount + 1;
+                countElement.innerText = updatedCount.toLocaleString();
+                updateCountInDb(updatedCount);
+            });
+    }
+
+    window.addEventListener("DOMContentLoaded", fetchCount);
+
+    // cover page download button click tracking
+    document.addEventListener("DOMContentLoaded", function() {
+       
+        const downloadBtn = document.querySelector("button, input[type='button'], .btn-generate");
+        if(downloadBtn) {
+            downloadBtn.addEventListener("click", incrementCounter);
+        }
+    }
+);
+
+                                                       </script>
 
                                       </div>
 
